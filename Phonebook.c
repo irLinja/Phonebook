@@ -20,6 +20,7 @@ void deleteall();
 void edit();
 void list();
 void search();
+int searchret(char FirstName[], char LastName[]);
 void random();
 
 int main()
@@ -32,11 +33,12 @@ for(;;)
     printf("\n\t\t\tPhonebook Options");
     printf("\n\n\t(1)\tAdd Contact");
     printf("\n\t(2)\tDelete Contact");
-    printf("\n\t(3)\tDisplay Phonebook ");
-    printf("\n\t(4)\tLook Up a Contacts Phone Number");
-    printf("\n\t(5)\tPick a Random Contact to Call");
-    printf("\n\t(6)\tDelete ALL Contacts");
-    printf("\n\t(7)\tExit Phonebook");
+    printf("\n\t(3)\tEdit Phonebook ");
+	printf("\n\t(4)\tDisplay Phonebook ");
+    printf("\n\t(5)\tLook Up a Contacts Phone Number");
+    printf("\n\t(6)\tPick a Random Contact to Call");
+    printf("\n\t(7)\tDelete ALL Contacts");
+    printf("\n\t(8)\tExit Phonebook");
     printf("\n\nSelect an option from the menu? ");
     scanf("%d", &iSelection);
 
@@ -49,18 +51,21 @@ for(;;)
             delete();
             break;
         case 3:
+        	edit();
+        	break;
+        case 4:
             list();
             break;
-        case 4:
+        case 5:
             search();
             break;
-        case 5:
+        case 6:
             random();
             break;
-        case 6:
+        case 7:
             deleteall();
             break;
-        case 7:
+        case 8:
             fprintf(stdout, "\nYou have chosen to exit the Phonebook.\n");
             getchar( );
             break;
@@ -70,7 +75,7 @@ for(;;)
     }
 
 
-    if (iSelection == 7) break;
+    if (iSelection == 8) break;
 }
 
 
@@ -147,6 +152,30 @@ void deleteall()
 
 void edit()
 {
+	char TempFirstName[20];
+	char TempLastName[20];
+  	int EditIndex = -1;
+  	
+   	printf("\nWhat is the Name of the Contact that you want to edit the Phone Number for?");
+   	printf("\n\nFirst Name: ");
+   	scanf("%s", TempFirstName);
+   	printf("Last Name: ");
+   	scanf("%s", TempLastName);
+   	EditIndex = searchret(TempFirstName,TempLastName);
+   	if(EditIndex != -1)
+   	{//go for edit
+   		printf("\nNew First Name: ");
+    	scanf("%s", phonebook[EditIndex].FirstName);
+    	printf("New Last Name: ");
+    	scanf("%s", phonebook[EditIndex].LastName);
+    	printf("New Phone Number XXX-XXX-XXXX: ");
+    	scanf("%s", phonebook[EditIndex].PhoneNumber);
+    	printf("\n\tContact successfully updated\n");
+    	getchar( );
+    	cls();
+   	}
+   	else
+   		printf("That contact was not found, please try again.");//not found
 }
 
 void list()
@@ -177,12 +206,44 @@ void search()
    	{
       	if (strcmp(TempFirstName, phonebook[x].FirstName) == 0)
          	if (strcmp(TempLastName, phonebook[x].LastName) == 0)
+            {
               	printf("\n%s %s's phone number is %s\n", phonebook[x].FirstName, phonebook[x].LastName, phonebook[x].PhoneNumber);
+              	return;
+            }
+            else
+            	printf("That contact was not found, please try again.");
    	}
+}
+
+int searchret(char FirstName[20], char LastName[20])
+{
+	int x = 0;
+	int index = -1;
+	//Searching
+   	for (x = 0; x < counter; x++)
+   	{
+      	if (strcmp(FirstName, phonebook[x].FirstName) == 0)
+         	if (strcmp(LastName, phonebook[x].LastName) == 0)
+              	index = x;
+   	}
+   	
+   	//if found returns the index, if not -1
+   	return index;
 }
 
 void random()
 {
+	int iRandom = 0;
+   	int x = 0;
+ 
+ 	//Finding random number
+   	iRandom = rand() % counter;
+   	x = iRandom;
+   	srand(time(NULL));
+
+	//printing out the random contact
+   	printf("\nYour random Contact is: %s %s\n", phonebook[x].FirstName, phonebook[x].LastName);
+   	printf("Their phone number is: %s\n", phonebook[x].PhoneNumber);
 }
 
 void cls()
