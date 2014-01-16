@@ -164,6 +164,21 @@ void list()
 
 void search()
 {
+	int x = 0;
+	char TempFirstName[20];
+	char TempLastName[20];
+  
+   	printf("\nWhat is the Name of the Contact that you want to find the Phone Number for?");
+   	printf("\n\nFirst Name: ");
+   	scanf("%s", TempFirstName);
+   	printf("Last Name: ");
+   	scanf("%s", TempLastName);
+   	for (x = 0; x < counter; x++)
+   	{
+      	if (strcmp(TempFirstName, phonebook[x].FirstName) == 0)
+         	if (strcmp(TempLastName, phonebook[x].LastName) == 0)
+              	printf("\n%s %s's phone number is %s\n", phonebook[x].FirstName, phonebook[x].LastName, phonebook[x].PhoneNumber);
+   	}
 }
 
 void random()
