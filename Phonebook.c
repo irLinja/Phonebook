@@ -111,27 +111,20 @@ void delete()
    printf("Last name: ");
    scanf("%s", deleteLastName);
  
- 
-   for (x = 0; x < counter; x++)
-   {
-       if (strcmp(deleteFirstName, phonebook[x].FirstName) == 0)
-       {
-           if (strcmp(deleteLastName, phonebook[x].LastName) == 0)
-           {
-               for ( i = x; i < counter - 1; i++ )
-               {
-                  strcpy(phonebook[i].FirstName, phonebook[i+1].FirstName);
-                  strcpy(phonebook[i].LastName, phonebook[i+1].LastName);
-                  strcpy(phonebook[i].PhoneNumber, phonebook[i+1].PhoneNumber);
-               }
-               printf("Record deleted from the phonebook.\n\n");
-               --counter;
-               return;
-            }
-        }
-    }
-  
-   printf("That contact was not found, please try again.");
+ 	if((x = searchret(deleteFirstName, deleteLastName)) != -1)
+ 	{
+ 		for ( i = x; i < counter - 1; i++ )
+		{
+			strcpy(phonebook[i].FirstName, phonebook[i+1].FirstName);
+   			strcpy(phonebook[i].LastName, phonebook[i+1].LastName);
+   			strcpy(phonebook[i].PhoneNumber, phonebook[i+1].PhoneNumber);
+		}
+		printf("Record deleted from the phonebook.\n\n");
+		--counter;
+		return;
+ 	}
+ 	else
+ 		printf("That contact was not found, please try again.");
 }
 
 void deleteall()
@@ -144,9 +137,8 @@ void deleteall()
       strcpy(phonebook[x].FirstName, nullStr);
       strcpy(phonebook[x].LastName, nullStr);
       strcpy(phonebook[x].PhoneNumber, nullStr);
-      --counter;
    }
-   
+   counter = 0;
    printf("All Contacts have been deleted.\n");
 }
 
@@ -171,11 +163,11 @@ void edit()
     	printf("New Phone Number XXX-XXX-XXXX: ");
     	scanf("%s", phonebook[EditIndex].PhoneNumber);
     	printf("\n\tContact successfully updated\n");
-    	getchar( );
-    	cls();
    	}
    	else
    		printf("That contact was not found, please try again.");//not found
+   	getchar( );
+    cls();
 }
 
 void list()
