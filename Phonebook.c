@@ -16,6 +16,7 @@ int counter = 0;
 void cls();
 void add();
 void delete();
+void deleteall();
 void edit();
 void list();
 void search();
@@ -57,7 +58,7 @@ for(;;)
             random();
             break;
         case 6:
-            DeleteAll(phonebook);
+            deleteall();
             break;
         case 7:
             fprintf(stdout, "\nYou have chosen to exit the Phonebook.\n");
@@ -94,6 +95,54 @@ void add()
 
 void delete()
 {
+	int x = 0;
+   int i = 0;
+   char deleteFirstName[20];
+   char deleteLastName[20];
+ 
+ 
+   printf("\nFirst name: ");
+   scanf("%s", deleteFirstName);
+   printf("Last name: ");
+   scanf("%s", deleteLastName);
+ 
+ 
+   for (x = 0; x < counter; x++)
+   {
+       if (strcmp(deleteFirstName, phonebook[x].FirstName) == 0)
+       {
+           if (strcmp(deleteLastName, phonebook[x].LastName) == 0)
+           {
+               for ( i = x; i < counter - 1; i++ )
+               {
+                  strcpy(phonebook[i].FirstName, phonebook[i+1].FirstName);
+                  strcpy(phonebook[i].LastName, phonebook[i+1].LastName);
+                  strcpy(phonebook[i].PhoneNumber, phonebook[i+1].PhoneNumber);
+               }
+               printf("Record deleted from the phonebook.\n\n");
+               --counter;
+               return;
+            }
+        }
+    }
+  
+   printf("That contact was not found, please try again.");
+}
+
+void deleteall()
+{
+   int x = 0;
+   char nullStr[20] = {'\0'};
+  
+   for ( x = 0; x < counter; x++ )
+   {
+      strcpy(phonebook[x].FirstName, nullStr);
+      strcpy(phonebook[x].LastName, nullStr);
+      strcpy(phonebook[x].PhoneNumber, nullStr);
+      --counter;
+   }
+   
+   printf("All Contacts have been deleted.\n");
 }
 
 void edit()
